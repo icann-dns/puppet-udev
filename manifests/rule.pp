@@ -35,13 +35,21 @@
 #
 # Default: undef
 #
+# [*rules_path*]
+#
+# Absolute path.
+#
+# The path to create the udev rule file. It defaults to /etc/udev/rules.d
+#
+# Default: undef
 #
 # === Example
 #
 define udev::rule(
-  $ensure  = present,
-  $content = undef,
-  $source  = undef
+  $ensure     = present,
+  $content    = undef,
+  $source     = undef,
+  $rules_path = '/etc/udev/rules.d' 
 ) {
   validate_re($ensure, '^present$|^absent$')
 
@@ -81,6 +89,6 @@ define udev::rule(
 
   $config = merge($config_base, $config_content)
 
-  create_resources( 'file', { "/etc/udev/rules.d/${title}" => $config } )
+  create_resources( 'file', { "${rules_path}/${title}" => $config } )
 
 }
